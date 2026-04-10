@@ -1,8 +1,0 @@
-prefix=/home/dut/lidar6/install
-
-Name: hipnuc_imu
-Description: Description of hipnuc_imu
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: roscpp rospy std_msgs message_runtime

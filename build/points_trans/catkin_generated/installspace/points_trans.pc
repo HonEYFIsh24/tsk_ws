@@ -1,8 +1,0 @@
-prefix=/home/dut/lidar6/install
-
-Name: points_trans
-Description: Description of points_trans
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

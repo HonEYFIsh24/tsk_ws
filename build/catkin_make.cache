@@ -1,2 +1,0 @@
-FAST-LIVO2:deptrum-stream-v3-ros1:detector_2d:hipnuc_imu:hipnuc_lib_package:points_trans:rgb_cam:rpg_vikit/vikit_common:rpg_vikit/vikit_py:rpg_vikit/vikit_ros
--DCATKIN_DEVEL_PREFIX=/home/dut/lidar6/devel -DCMAKE_INSTALL_PREFIX=/home/dut/lidar6/install -G Unix Makefiles
