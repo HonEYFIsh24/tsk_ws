@@ -1,0 +1,3 @@
+<launch>
+  <node name="detector_2d" type="detector_2d.py" pkg="detector_2d" output="log"/>
+</launch>

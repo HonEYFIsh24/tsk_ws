@@ -1,0 +1,27 @@
+<launch>
+
+  <!-- 6m 雷达驱动 -->
+  <include file="$(find deptrum_camera)/launch/nebula_410.launch"/>
+
+  <!-- 25m 雷达驱动 -->
+  <!-- node name="lidar25_node" pkg="lidar25" type="lidar25_node" output="screen"></node -->
+
+  <!-- 相机驱动 -->
+  <node name="cam_node" pkg="rgb_cam" type="cam_node" output="screen">
+    <param name="cam_id" value="0"/>
+    <param name="width" value="640"/>
+    <param name="height" value="480"/>
+    <param name="fps" value="30"/>
+    <param name="angle" value="90"/>
+
+    <!-- 相机参数 -->
+    <param name="camera_name" value="rgb_cam"/>
+    <param name="camera_info_url" value="file:///home/fxxk/lidar6/src/rgb_cam/config/rgb_cam.yaml"/>
+  </node>
+
+  <!-- imu -->
+  <include file="$(find hipnuc_imu)/launch/imu_msg.launch"/>
+
+  <!-- 图像检测 -->
+  <!-- include file="$(find detector_2d)/launch/demo.launch"/ -->
+</launch>

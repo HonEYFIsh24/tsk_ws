@@ -1,0 +1,7 @@
+<library path="libdeptrum_camera_nodelet">
+    <class name="deptrum_camera/DTCameraNodelet" type="deptrum_camera::DTCameraNodelet" base_class_type="nodelet::Nodelet">
+        <description>
+            Example camera nodelet using the Deptrum pisca camera.
+        </description>
+    </class>
+</library>

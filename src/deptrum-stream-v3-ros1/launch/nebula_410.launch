@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Basic camera parameters -->
+    <arg name="camera_name" default="camera"/>
+    <arg name="camera_mode" default="2"/>
+    <arg name="device_mode" default="0"/>
+
+    <!-- open device delay time 100m-->
+    <arg name="connection_delay" default="100"/>
+    <arg name="log_level" default="none"/>
+    <arg name="publish_tf" default="true"/>
+    <arg name="tf_publish_rate" default="10.0"/>
+    <arg name="enable_frame_sync" default="true"/>
+
+
+    <arg name="uvc_backend" default="libuvc"/><!-- "libuvc" or "v4l2" -->
+
+    <arg name="upgrade_firmware" default=""/>
+    <arg name="config_file_path" default=""/>
+
+    <!-- Depth camera parameters -->
+    <arg name="depth_width" default="0"/>
+    <arg name="depth_height" default="0"/>
+    <arg name="depth_fps" default="0"/>
+    <arg name="enable_depth" default="true"/>
+    <arg name="depth_format" default="ANY"/>
+   
+    <arg name="depth_crop_roi_mtof_enable" default="false"/>
+    <arg name="depth_crop_roi_mtof_left" default="0"/>
+    <arg name="depth_crop_roi_mtof_top" default="50"/>
+    <arg name="depth_crop_roi_mtof_width" default="248"/>
+    <arg name="depth_crop_roi_mtof_height" default="30"/>
+
+    <arg name="depth_crop_roi_stof_enable" default="false"/>
+    <arg name="depth_crop_roi_stof_left" default="0"/>
+    <arg name="depth_crop_roi_stof_top" default="50"/>
+    <arg name="depth_crop_roi_stof_width" default="248"/>
+    <arg name="depth_crop_roi_stof_height" default="30"/>
+
+    
+    <arg name="enable_depth_auto_exposure" default="true"/>
+
+     <!-- kDtOptionStofDepthExposureInt = 3，  kDtOptionMtofDepthExposureInt = 4 -->
+    <arg name="depth_exposure_mode" default="4"/>
+    <!-- -1 means not set, other value bigger than 0, the value is the exposure time in us-->
+    <arg name="depth_exposure_mtof_value" default="-1"/>
+    <arg name="depth_exposure_stof_value" default="-1"/>
+
+    <!-- 410不支持 -->
+    <arg name="depth_exposure" default="-1"/>
+
+    <!-- Point cloud parameters -->
+    <arg name="enable_point_cloud" default="true"/>
+
+    <arg name="ordered_pc" default="false"/>
+
+    <!-- Misc parameters -->
+    <arg name="usb_port" default=""/>
+    <arg name="serial_number" default=""/>
+    <arg name="device_num" default="1"/>
+
+<!-- 
+    <arg name="enable_heartbeat" default="false"/>
+    <arg name="enable_hardware_reset" default="false"/> -->
+
+<!-- global/system/device -->
+    <arg name="time_domain" default="system"/>
+
+    <group ns="$(arg camera_name)">
+        <node name="camera" pkg="deptrum_camera" type="deptrum_camera_node" output="screen">
+            <!-- Use the parameters defined above -->
+            <param name="camera_name" value="$(arg camera_name)"/>
+            <param name="camera_mode" value="$(arg camera_mode)"/>
+            <param name="device_mode" value="$(arg device_mode)"/>
+            <param name="connection_delay" value="$(arg connection_delay)"/>
+            <param name="log_level" value="$(arg log_level)"/>
+            <param name="publish_tf" value="$(arg publish_tf)"/>
+            <param name="tf_publish_rate" value="$(arg tf_publish_rate)"/>
+            <param name="enable_frame_sync" value="$(arg enable_frame_sync)"/>
+            <param name="uvc_backend" value="$(arg uvc_backend)"/>
+
+            <param name="depth_width" value="$(arg depth_width)"/>
+            <param name="depth_height" value="$(arg depth_height)"/>
+            <param name="depth_fps" value="$(arg depth_fps)"/>
+            <param name="enable_depth" value="$(arg enable_depth)"/>
+            <param name="depth_format" value="$(arg depth_format)"/>
+
+            <param name="depth_crop_roi_mtof_enable" value="$(arg depth_crop_roi_mtof_enable)"/>
+            <param name="depth_crop_roi_mtof_left" value="$(arg depth_crop_roi_mtof_left)"/>
+            <param name="depth_crop_roi_mtof_top" value="$(arg depth_crop_roi_mtof_top)"/>
+            <param name="depth_crop_roi_mtof_width" value="$(arg depth_crop_roi_mtof_width)"/>
+            <param name="depth_crop_roi_mtof_height" value="$(arg depth_crop_roi_mtof_height)"/>
+
+            <param name="depth_crop_roi_stof_enable" value="$(arg depth_crop_roi_stof_enable)"/>
+            <param name="depth_crop_roi_stof_left" value="$(arg depth_crop_roi_stof_left)"/>
+            <param name="depth_crop_roi_stof_top" value="$(arg depth_crop_roi_stof_top)"/>
+            <param name="depth_crop_roi_stof_width" value="$(arg depth_crop_roi_stof_width)"/>
+            <param name="depth_crop_roi_stof_height" value="$(arg depth_crop_roi_stof_height)"/>
+
+
+            <param name="enable_depth_auto_exposure" value="$(arg enable_depth_auto_exposure)"/>
+            <param name="depth_exposure_mode" value="$(arg depth_exposure_mode)"/>
+            <param name="depth_exposure_mtof_value" value="$(arg depth_exposure_mtof_value)"/>
+            <param name="depth_exposure_stof_value" value="$(arg depth_exposure_stof_value)"/>
+
+            <param name="enable_point_cloud" value="$(arg enable_point_cloud)"/>
+            <!-- <param name="enable_colored_point_cloud" value="$(arg enable_colored_point_cloud)"/> -->
+            <param name="ordered_pc" value="$(arg ordered_pc)"/>
+
+            <param name="usb_port" value="$(arg usb_port)"/>
+             <param name="serial_number" value="$(arg serial_number)"/>
+            <param name="device_num" value="$(arg device_num)"/>
+            <param name="time_domain" value="$(arg time_domain)"/>
+
+            <!-- Remap the depth registered point cloud topic -->
+            <remap from="/$(arg camera_name)/depth/color/points" to="/$(arg camera_name)/depth_registered/points"/>
+        </node>
+    </group>
+    <!-- Load config yaml file -->
+    <group if="$(eval config_file_path != '')">
+        <rosparam ns="$(arg camera_name)/$(arg camera_name)" file="$(arg config_file_path)" command="load" />
+    </group>
+</launch>

@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/dut/lidar6/devel/setup.sh

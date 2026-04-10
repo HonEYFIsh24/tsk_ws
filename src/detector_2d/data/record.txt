@@ -1,0 +1,303 @@
+(base) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [99, 60, 157, 210]
+Detected:  [102, 63, 161, 209]
+IoU:  0.8649289099526066
+Matched!
+------------------------
+Traceback (most recent call last):
+  File "/home/bowen/PythonProject/nanodet/tools/IoU.py", line 66, in <module>
+    main()
+  File "/home/bowen/PythonProject/nanodet/tools/IoU.py", line 62, in main
+    cv2.imshow('Results',image_raw)
+cv2.error: OpenCV(4.10.0) /io/opencv/modules/highgui/src/window.cpp:1301: error: (-2:Unspecified error) The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Cocoa support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script in function 'cvShowImage'
+
+(base) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ conda activate nanodet
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [99, 60, 157, 210]
+Detected:  [102, 63, 161, 209]
+IoU:  0.8649289099526066
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ 
+ *  还原的历史记录 
+
+(base) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ conda activate nanodet
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [82, 133, 518, 289]
+Detected:  [133, 3, 561, 360]
+IoU:  0.3736189907435055
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [82, 133, 518, 289]
+Detected:  [133, 3, 561, 360]
+IoU:  0.3736189907435055
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [74, 0, 346, 333]
+Detected:  [79, 0, 342, 336]
+IoU:  0.9585618125102611
+Matched!
+------------------------
+Ground Truth:  [224, 73, 308, 171]
+Detected:  [225, 71, 311, 162]
+IoU:  0.8519201937492792
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [1, 81, 343, 333]
+Detected:  [0, 84, 342, 334]
+IoU:  0.9784961106309421
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [1, 103, 343, 332]
+Detected:  [0, 122, 334, 340]
+IoU:  0.8612068965517241
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [2, 100, 344, 330]
+Detected:  [0, 103, 343, 336]
+IoU:  0.9536170107918986
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [75, 102, 341, 330]
+Detected:  [71, 103, 343, 332]
+IoU:  0.9652779998081658
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [3, 1, 160, 395]
+Detected:  [0, 0, 162, 389]
+IoU:  0.9524077548467792
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [94, 102, 638, 304]
+Detected:  [148, 106, 639, 289]
+IoU:  0.814655994767014
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [92, 97, 640, 293]
+Detected:  [92, 94, 621, 313]
+IoU:  0.8671043278277232
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [92, 100, 640, 307]
+Detected:  [99, 100, 639, 309]
+IoU:  0.9761081420936812
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [92, 98, 640, 301]
+Detected:  [192, 126, 639, 288]
+IoU:  0.6509474668296718
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [343, 97, 640, 278]
+Detected:  [347, 102, 634, 273]
+IoU:  0.9129415704001339
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [343, 97, 640, 278]
+Detected:  [347, 102, 634, 273]
+IoU:  0.9129415704001339
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [343, 96, 640, 274]
+Detected:  [351, 93, 640, 265]
+IoU:  0.9089572515958536
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [340, 69, 611, 280]
+Detected:  [353, 6, 639, 267]
+IoU:  0.632674039854848
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [338, 0, 593, 264]
+Detected:  [333, 0, 630, 265]
+IoU:  0.8553459119496856
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [328, 1, 436, 273]
+Detected:  [321, 1, 423, 256]
+IoU:  0.7774140752864157
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [80, 104, 428, 298]
+Detected:  [96, 108, 429, 298]
+IoU:  0.9317302295353165
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [229, 41, 455, 307]
+Detected:  [232, 41, 456, 314]
+IoU:  0.9575141242937854
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [196, 149, 439, 334]
+Detected:  [218, 152, 432, 332]
+IoU:  0.8568568568568569
+Matched!
+------------------------
+Ground Truth:  [201, 94, 327, 232]
+Detected:  [209, 96, 322, 210]
+IoU:  0.740855762594893
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [153, 70, 287, 317]
+Detected:  [154, 58, 279, 318]
+IoU:  0.889180082366155
+Matched!
+------------------------
+Ground Truth:  [230, 55, 446, 325]
+Detected:  [223, 54, 441, 327]
+IoU:  0.9360212933753943
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [143, 73, 288, 322]
+Detected:  [155, 66, 278, 312]
+IoU:  0.7952442785262133
+Matched!
+------------------------
+Ground Truth:  [228, 58, 444, 328]
+Detected:  [227, 53, 443, 324]
+IoU:  0.958502329634968
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [239, 217, 340, 309]
+Detected:  [227, 114, 337, 297]
+IoU:  0.3632656843666018
+------------------------
+Ground Truth:  [223, 113, 329, 239]
+Detected:  [221, 110, 326, 223]
+IoU:  0.8156360233244547
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [78, 131, 354, 340]
+Detected:  [81, 133, 348, 338]
+IoU:  0.948876638235906
+Matched!
+------------------------
+Ground Truth:  [196, 169, 275, 262]
+Detected:  [193, 168, 272, 231]
+IoU:  0.6190225959012087
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [20, 31, 129, 70]
+Detected:  [24, 7, 131, 89]
+IoU:  0.4585666293393057
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [18, 0, 86, 81]
+Detected:  [19, 0, 84, 83]
+IoU:  0.9338417878680383
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [1, 20, 88, 82]
+Detected:  [0, 20, 83, 84]
+IoU:  0.904304517965137
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [2, 24, 87, 81]
+Detected:  [0, 26, 82, 90]
+IoU:  0.7728789741788161
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [1, 24, 87, 81]
+Detected:  [12, 23, 84, 82]
+IoU:  0.8133174791914387
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [19, 24, 86, 81]
+Detected:  [18, 25, 85, 80]
+IoU:  0.9370160041300981
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [1, 1, 40, 97]
+Detected:  [0, 0, 39, 96]
+IoU:  0.9308922124806601
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [24, 25, 160, 70]
+Detected:  [30, 25, 158, 70]
+IoU:  0.9411764705882353
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [23, 23, 160, 73]
+Detected:  [22, 24, 159, 71]
+IoU:  0.9267797593156445
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [23, 25, 160, 74]
+Detected:  [24, 26, 159, 76]
+IoU:  0.9279679220965201
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [22, 24, 160, 72]
+Detected:  [51, 25, 159, 70]
+IoU:  0.7336956521739131
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [83, 25, 160, 68]
+Detected:  [86, 25, 153, 66]
+IoU:  0.8296587133796436
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+\Ground Truth:  [82, 24, 160, 66]
+Detected:  [88, 24, 159, 65]
+IoU:  0.8885836385836385
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [85, 17, 153, 67]
+Detected:  [87, 12, 144, 66]
+IoU:  0.7579375848032565
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [83, 1, 150, 67]
+Detected:  [82, 0, 137, 65]
+IoU:  0.761065844527637
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [81, 1, 109, 69]
+Detected:  [77, 0, 105, 63]
+IoU:  0.6825688073394496
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ python IoU.py
+Ground Truth:  [21, 26, 108, 73]
+Detected:  [25, 26, 106, 73]
+IoU:  0.9310344827586207
+Matched!
+------------------------
+(nanodet) bowen@bowen-ubuntu:~/PythonProject/nanodet/tools$ 

@@ -1,0 +1,19 @@
+<launch>
+
+    <arg name="node_name" default="decode_node"/>
+    <arg name="pointcloud_topic" default="/camera/depth/points/decoded"/>
+    <arg name="image_topic" default="/camera/depth/points/compressed"/>
+    <arg name="image_width" default="240"/>
+    <arg name="image_height" default="180"/>
+    <arg name="focal_length" default="107.0"/>
+
+
+    <node name="$(arg node_name)" pkg="points_trans" type="decode_node.py" output="screen">
+        <param name="pointcloud_topic" value="$(arg pointcloud_topic)"/>
+        <param name="image_topic" value="$(arg image_topic)"/>
+        <param name="image_width" value="$(arg image_width)"/>
+        <param name="image_height" value="$(arg image_height)"/>
+        <param name="focal_length" value="$(arg focal_length)"/>
+    </node>
+
+</launch>

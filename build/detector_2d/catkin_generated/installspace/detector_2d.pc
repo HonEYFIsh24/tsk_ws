@@ -1,0 +1,8 @@
+prefix=/home/dut/lidar6/install
+
+Name: detector_2d
+Description: Description of detector_2d
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

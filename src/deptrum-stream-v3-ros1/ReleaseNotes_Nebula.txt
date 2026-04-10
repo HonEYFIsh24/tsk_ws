@@ -1,0 +1,101 @@
+# ROS Driver
+------------------------------------------
+# Release 0.0.8
+
+## Major Features and Improvements
+
+## Breaking Changes
+
+## Bug Fixes and Other Changes
+
+1.更新sdk为2.0.40
+2.更新文档
+3.去掉无用注释、无用变量
+4.更改函数名称、clang-format
+
+sdk version:v2.0.40
+
+------------------------------------------
+# Release 0.0.7
+
+## Major Features and Improvements
+
+## Breaking Changes
+
+## Bug Fixes and Other Changes
+
+1.修复第二次订阅时cpu异常升高问题
+2.修复深度、点云时间戳获取为0的问题
+3.修改文档
+
+sdk version:v2.0.27
+
+------------------------------------------
+# Release 0.0.6
+
+## Major Features and Improvements
+
+## Breaking Changes
+
+## Bug Fixes and Other Changes
+
+1.适配新sdk
+2.增加280
+3.增加剪裁等功能
+
+sdk version:v2.0.27
+
+
+------------------------------------------
+# Release 0.0.4
+
+## Major Features and Improvements
+
+## Breaking Changes
+
+## Bug Fixes and Other Changes
+
+1. 更改sdk版本
+2.todo:传出tx温度, 获得mtof,stof曝光
+
+sdk version:v1.1.10
+
+
+------------------------------------------
+# Release 0.0.3
+
+## Major Features and Improvements
+
+## Breaking Changes
+
+## Bug Fixes and Other Changes
+
+1. 更改sdk版本
+
+sdk version:v1.1.9
+
+
+------------------------------------------
+# Release 0.0.2
+
+## Major Features and Improvements
+
+## Breaking Changes
+
+## Bug Fixes and Other Changes
+
+1. 删除无用代码，增加曝光、roi相关功能、410文档
+
+sdk version:v1.1.7
+
+
+------------------------------------------
+# Release 0.0.1
+
+## Major Features and Improvements
+
+## Breaking Changes
+
+## Bug Fixes and Other Changes
+
+1. 适配stream-sdk-v3

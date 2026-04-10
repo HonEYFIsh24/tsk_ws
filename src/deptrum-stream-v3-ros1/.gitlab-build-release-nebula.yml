@@ -1,0 +1,702 @@
+.build-ubuntu-16.04-aarch64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu16.04-aarch64:v1
+  stage: build
+  script:
+    # - echo "0 test----"
+    # - curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+    # - echo "test---- to apt-get update"
+    # - apt-get update
+    # - echo "test---- to apt-get install -y libdw-dev"
+    # - apt-get install -y libdw-dev
+    - MAJOR=`cat version_ros_nebula.h | grep MAJOR | cut -d " " -f 3`
+    - MINOR=`cat version_ros_nebula.h | grep MINOR | cut -d " " -f 3`
+    - REVISION=`cat version_ros_nebula.h | grep REVISION | cut -d " " -f 3`
+    - version=$MAJOR.$MINOR.$REVISION
+    - build_deb $version nebula usage_nebula.md ReleaseNotes_Nebula.txt kinetic
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: always
+  artifacts:
+    name:  "$CI_COMMIT_REF_NAME"
+    expire_in: 1 week
+    paths:
+      - nebula-ros-driver-v3-kinetic-*.tar.gz
+      - deptrum-stream-v3-ros1-*source.tar.gz
+  tags:
+    - linux-x86_64
+
+build-ubuntu-16.04-x86_64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu16.04-x86_64-ros-update-kinetic:v1
+  stage: build
+  script:
+    # - echo "0 test----"
+    # - curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+    # - echo "test---- to apt-get update"
+    # - apt-get update
+    # - echo "test---- to apt-get install -y libdw-dev"
+    # - apt-get install -y libdw-dev
+    
+    # # - echo "test---- sed 移除所有文件中的 ghproxy.com 代理前缀"
+
+    # # 1. 修复 Python 2.7 路径下的代理设置
+    # - sudo sed -i 's|https://ghproxy.com/||g' /usr/lib/python2.7/dist-packages/rosdep2/sources_list.py || true
+    # - sudo sed -i 's|https://ghproxy.com/||g' /usr/lib/python2.7/dist-packages/rosdep2/rep3.py || true
+    # - sudo sed -i 's|https://ghproxy.com/||g' /usr/lib/python2.7/dist-packages/rosdep2/gbpdistro_support.py || true
+    # # 清理缓存
+    # - sudo find /usr/lib/python2.7/dist-packages -name "*.pyc" -delete || true
+    # - sudo find /usr/lib/python2.7/dist-packages -name "__pycache__" -exec rm -rf {} + || true
+
+
+    # - mkdir -p /etc/ros/rosdep/sources.list.d/
+    # - curl -o /etc/ros/rosdep/sources.list.d/20-default.list -L https://mirrors.tuna.tsinghua.edu.cn/github-raw/ros/rosdistro/master/rosdep/sources.list.d/20-default.list
+    # - export ROSDISTRO_INDEX_URL=https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml
+
+
+    # - |
+    #   sudo mkdir -p /etc/ros/rosdep/custom-rules/
+    #   sudo tee /etc/ros/rosdep/custom-rules/all_deps.yaml > /dev/null <<'EOF'
+    #   # ROS kinetic 依赖映射规则
+    #   backward_ros:
+    #     ubuntu: [ros-kinetic-backward-ros]
+    
+    #   camera_info_manager:
+    #     ubuntu: [ros-kinetic-camera-info-manager]
+    
+    #   cv_bridge:
+    #     ubuntu: [ros-kinetic-cv-bridge]
+    
+    #   dynamic_reconfigure:
+    #     ubuntu: [ros-kinetic-dynamic-reconfigure]
+    
+    #   image_geometry:
+    #     ubuntu: [ros-kinetic-image-geometry]
+    
+    #   image_transport:
+    #     ubuntu: [ros-kinetic-image-transport]
+    
+    #   message_filters:
+    #     ubuntu: [ros-kinetic-message-filters]
+    
+    #   message_generation:
+    #     ubuntu: [ros-kinetic-message-generation]
+    
+    #   message_runtime:
+    #     ubuntu: [ros-kinetic-message-runtime]
+    
+    #   roscpp:
+    #     ubuntu: [ros-kinetic-roscpp]
+    
+    #   sensor_msgs:
+    #     ubuntu: [ros-kinetic-sensor-msgs]
+    
+    #   std_srvs:
+    #     ubuntu: [ros-kinetic-std-srvs]
+    
+    #   tf2_ros:
+    #     ubuntu: [ros-kinetic-tf2-ros]
+    
+    #   tf2:
+    #     ubuntu: [ros-kinetic-tf2]
+    
+    #   pluginlib:
+    #     ubuntu: [ros-kinetic-pluginlib]
+    
+    #   nodelet:
+    #     ubuntu: [ros-kinetic-nodelet]
+    
+    #   diagnostic_updater:
+    #     ubuntu: [ros-kinetic-diagnostic-updater]
+    
+    #   # 系统依赖项
+    #   libudev-dev:
+    #     ubuntu: [libudev-dev]
+    
+    #   libusb-1.0-dev:
+    #     ubuntu: [libusb-1.0-0-dev]
+    
+    #   libdw-dev:
+    #     ubuntu: [libdw-dev]
+    
+    #   catkin:
+    #     ubuntu: [ros-kinetic-catkin]
+    #   EOF 
+
+
+    # # 添加自定义规则源
+    # - echo "yaml file:///etc/ros/rosdep/custom-rules/all_deps.yaml" > /etc/ros/rosdep/sources.list.d/99-custom.list
+
+    # - rosdep update
+    # - echo "test---- to rosdep install --from-paths src --ignore-src -r -y"
+    # - rosdep install --from-paths src --ignore-src -r -y
+
+
+    - MAJOR=`cat version_ros_nebula.h | grep MAJOR | cut -d " " -f 3`
+    - MINOR=`cat version_ros_nebula.h | grep MINOR | cut -d " " -f 3`
+    - REVISION=`cat version_ros_nebula.h | grep REVISION | cut -d " " -f 3`
+    - version=$MAJOR.$MINOR.$REVISION
+    - build_deb $version nebula usage_nebula.md ReleaseNotes_Nebula.txt kinetic
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: always
+  artifacts:
+    name:  "$CI_COMMIT_REF_NAME"
+    expire_in: 1 week
+    paths:
+      - nebula-ros-driver-v3-kinetic-*.tar.gz
+      - deptrum-stream-v3-ros1-*source.tar.gz
+  tags:
+    - linux-x86_64
+
+build-ubuntu-18.04-x86_64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu18.04-x86_64-ros-update-melodic:v1
+  stage: build
+  script:
+    # - echo "test---- to apt-get update"
+    # - apt-get update
+    # - echo "test---- to apt-get install -y libdw-dev"
+    # - apt-get install -y libdw-dev
+
+    - MAJOR=`cat version_ros_nebula.h | grep MAJOR | cut -d " " -f 3`
+    - MINOR=`cat version_ros_nebula.h | grep MINOR | cut -d " " -f 3`
+    - REVISION=`cat version_ros_nebula.h | grep REVISION | cut -d " " -f 3`
+    - version=$MAJOR.$MINOR.$REVISION
+    - build_deb $version nebula usage_nebula.md ReleaseNotes_Nebula.txt melodic
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: always
+  artifacts:
+    name:  "$CI_COMMIT_REF_NAME"
+    expire_in: 1 week
+    paths:
+      - nebula-ros-driver-v3-melodic-*.tar.gz
+      - deptrum-stream-v3-ros1-*source.tar.gz
+  tags:
+    - linux-x86_64
+      
+build-ubuntu-18.04-aarch64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu18.04-aarch64-ros-update-melodic:v1 
+  stage: build
+  script:
+    # - curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+    # - echo "test---- to apt-get update"
+    # - apt-get update
+    # - echo "test---- to apt-get install -y libdw-dev"
+    # - apt-get install -y libdw-dev
+    # - echo "test---- to apt-get install -y libudev-dev"
+    
+    - MAJOR=`cat version_ros_nebula.h | grep MAJOR | cut -d " " -f 3`
+    - MINOR=`cat version_ros_nebula.h | grep MINOR | cut -d " " -f 3`
+    - REVISION=`cat version_ros_nebula.h | grep REVISION | cut -d " " -f 3`
+    - version=$MAJOR.$MINOR.$REVISION
+    - build_deb $version nebula usage_nebula.md ReleaseNotes_Nebula.txt melodic aarch64
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: always
+
+  timeout: 4 hours    
+  artifacts:
+    name:  "$CI_COMMIT_REF_NAME"
+    expire_in: 1 week
+    paths:
+      - nebula-ros-driver-v3-melodic-*.tar.gz
+      - deptrum-stream-v3-ros1-*source.tar.gz
+  tags:
+    - linux-aarch64
+      
+build-ubuntu-20.04-x86_64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu20.04-x86_64-ros-update-noetic:v1
+  stage: build
+  script:
+    # - echo "0 test----"
+    # - curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+    # - - export ROS_DISTRO=noetic
+    # # 验证变量
+    # - echo "test---- currentros  $ROS_DISTRO"
+
+    # - echo "test---- to apt-get update"
+    # - apt-get update
+    # - echo "test---- install  all lib"
+    # - apt install -y libgflags-dev ros-$ROS_DISTRO-image-geometry ros-$ROS_DISTRO-camera-info-manager ros-${ROS_DISTRO}-image-transport-plugins ros-${ROS_DISTRO}-compressed-image-transport ros-$ROS_DISTRO-image-transport ros-$ROS_DISTRO-image-publisher libgoogle-glog-dev libusb-1.0-0-dev libeigen3-dev ros-$ROS_DISTRO-diagnostic-updater ros-$ROS_DISTRO-diagnostic-msgs libdw-dev
+    
+    # - echo "test---- sed 移除所有文件中的 ghproxy.com 代理前缀"
+
+    # - sudo sed -i 's|https://ghproxy.com/||g' /usr/lib/python3/dist-packages/rosdistro/manifest_provider/github.py
+    # - sudo sed -i 's|https://ghproxy.com/||g' /usr/lib/python3/dist-packages/rosdistro/__init__.py
+    # - sudo sed -i 's|https://ghproxy.com/||g' /usr/lib/python3/dist-packages/rosdep2/rep3.py
+    # - sudo sed -i 's|https://ghproxy.com/||g' /usr/lib/python3/dist-packages/rosdep2/sources_list.py
+    # - sudo sed -i 's|https://ghproxy.com/||g' /usr/lib/python3/dist-packages/rosdep2/gbpdistro_support.py
+    # - sudo find /usr/lib/python3/dist-packages -name "*.pyc" -delete
+    # - sudo find /usr/lib/python3/dist-packages -name "__pycache__" -exec rm -rf {} +
+
+
+    # - mkdir -p /etc/ros/rosdep/sources.list.d/
+    # - curl -o /etc/ros/rosdep/sources.list.d/20-default.list -L https://mirrors.tuna.tsinghua.edu.cn/github-raw/ros/rosdistro/master/rosdep/sources.list.d/20-default.list
+    # - export ROSDISTRO_INDEX_URL=https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml
+
+
+    # - |
+    #   sudo mkdir -p /etc/ros/rosdep/custom-rules/
+    #   sudo tee /etc/ros/rosdep/custom-rules/all_deps.yaml > /dev/null <<'EOF'
+    #   # ROS Noetic 依赖映射规则
+    #   backward_ros:
+    #     ubuntu: [ros-noetic-backward-ros]
+    
+    #   camera_info_manager:
+    #     ubuntu: [ros-noetic-camera-info-manager]
+    
+    #   cv_bridge:
+    #     ubuntu: [ros-noetic-cv-bridge]
+    
+    #   dynamic_reconfigure:
+    #     ubuntu: [ros-noetic-dynamic-reconfigure]
+    
+    #   image_geometry:
+    #     ubuntu: [ros-noetic-image-geometry]
+    
+    #   image_transport:
+    #     ubuntu: [ros-noetic-image-transport]
+    
+    #   message_filters:
+    #     ubuntu: [ros-noetic-message-filters]
+    
+    #   message_generation:
+    #     ubuntu: [ros-noetic-message-generation]
+    
+    #   message_runtime:
+    #     ubuntu: [ros-noetic-message-runtime]
+    
+    #   roscpp:
+    #     ubuntu: [ros-noetic-roscpp]
+    
+    #   sensor_msgs:
+    #     ubuntu: [ros-noetic-sensor-msgs]
+    
+    #   std_srvs:
+    #     ubuntu: [ros-noetic-std-srvs]
+    
+    #   tf2_ros:
+    #     ubuntu: [ros-noetic-tf2-ros]
+    
+    #   tf2:
+    #     ubuntu: [ros-noetic-tf2]
+    
+    #   pluginlib:
+    #     ubuntu: [ros-noetic-pluginlib]
+    
+    #   nodelet:
+    #     ubuntu: [ros-noetic-nodelet]
+    
+    #   diagnostic_updater:
+    #     ubuntu: [ros-noetic-diagnostic-updater]
+    
+    #   # 系统依赖项
+    #   libudev-dev:
+    #     ubuntu: [libudev-dev]
+    
+    #   libusb-1.0-dev:
+    #     ubuntu: [libusb-1.0-0-dev]
+    
+    #   libdw-dev:
+    #     ubuntu: [libdw-dev]
+    
+    #   catkin:
+    #     ubuntu: [ros-noetic-catkin]
+    #   EOF 
+
+
+    # # 添加自定义规则源
+    # - echo "yaml file:///etc/ros/rosdep/custom-rules/all_deps.yaml" > /etc/ros/rosdep/sources.list.d/99-custom.list
+
+    # - rosdep update
+    # - echo "test---- to rosdep install --from-paths src --ignore-src -r -y"
+    # - rosdep install --from-paths src --ignore-src -r -y
+
+
+    - MAJOR=`cat version_ros_nebula.h | grep MAJOR | cut -d " " -f 3`
+    - MINOR=`cat version_ros_nebula.h | grep MINOR | cut -d " " -f 3`
+    - REVISION=`cat version_ros_nebula.h | grep REVISION | cut -d " " -f 3`
+    - version=$MAJOR.$MINOR.$REVISION
+    - build_deb $version nebula usage_nebula.md ReleaseNotes_Nebula.txt noetic
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: always
+  artifacts:
+    name:  "$CI_COMMIT_REF_NAME"
+    expire_in: 1 week
+    paths:
+      - nebula-ros-driver-v3-noetic-*.tar.gz
+      - deptrum-stream-v3-ros1-*source.tar.gz
+  tags:
+    - linux-x86_64
+
+
+build-ubuntu-20.04-aarch64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu20.04-aarch64-ros-update-noetic:v1
+  stage: build    
+  script:
+    # - echo "0 test----"
+    # - curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+    # - echo "test---- to apt-get update"
+    # - apt-get update
+    # - echo "test---- install  all lib"
+
+    # - apt install -y libgflags-dev ros-$ROS_DISTRO-image-geometry ros-$ROS_DISTRO-camera-info-manager ros-${ROS_DISTRO}-image-transport-plugins ros-${ROS_DISTRO}-compressed-image-transport ros-$ROS_DISTRO-image-transport ros-$ROS_DISTRO-image-publisher libgoogle-glog-dev libusb-1.0-0-dev libeigen3-dev ros-$ROS_DISTRO-diagnostic-updater ros-$ROS_DISTRO-diagnostic-msgs libdw-dev
+    
+    # - mkdir -p /etc/ros/rosdep/sources.list.d/
+    # - curl -o /etc/ros/rosdep/sources.list.d/20-default.list -L https://mirrors.tuna.tsinghua.edu.cn/github-raw/ros/rosdistro/master/rosdep/sources.list.d/20-default.list
+    # - export ROSDISTRO_INDEX_URL=https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml
+
+    # - |
+    #   sudo mkdir -p /etc/ros/rosdep/custom-rules/
+    #   sudo tee /etc/ros/rosdep/custom-rules/all_deps.yaml > /dev/null <<'EOF'
+    #   # ROS Noetic 依赖映射规则
+    #   backward_ros:
+    #     ubuntu: [ros-$ROS_DISTRO-backward-ros]
+    
+    #   camera_info_manager:
+    #     ubuntu: [ros-$ROS_DISTRO-camera-info-manager]
+    
+    #   cv_bridge:
+    #     ubuntu: [ros-$ROS_DISTRO-cv-bridge]
+    
+    #   dynamic_reconfigure:
+    #     ubuntu: [ros-$ROS_DISTRO-dynamic-reconfigure]
+    
+    #   image_geometry:
+    #     ubuntu: [ros-$ROS_DISTRO-image-geometry]
+    
+    #   image_transport:
+    #     ubuntu: [ros-$ROS_DISTRO-image-transport]
+    
+    #   message_filters:
+    #     ubuntu: [ros-$ROS_DISTRO-message-filters]
+    
+    #   message_generation:
+    #     ubuntu: [ros-$ROS_DISTRO-message-generation]
+    
+    #   message_runtime:
+    #     ubuntu: [ros-$ROS_DISTRO-message-runtime]
+    
+    #   roscpp:
+    #     ubuntu: [ros-$ROS_DISTRO-roscpp]
+    
+    #   sensor_msgs:
+    #     ubuntu: [ros-$ROS_DISTRO-sensor-msgs]
+    
+    #   std_srvs:
+    #     ubuntu: [ros-$ROS_DISTRO-std-srvs]
+    
+    #   tf2_ros:
+    #     ubuntu: [ros-$ROS_DISTRO-tf2-ros]
+    
+    #   tf2:
+    #     ubuntu: [ros-$ROS_DISTRO-tf2]
+    
+    #   pluginlib:
+    #     ubuntu: [ros-$ROS_DISTRO-pluginlib]
+    
+    #   nodelet:
+    #     ubuntu: [ros-$ROS_DISTRO-nodelet]
+    
+    #   diagnostic_updater:
+    #     ubuntu: [ros-$ROS_DISTRO-diagnostic-updater]
+    
+    #   # 系统依赖项
+    #   libudev-dev:
+    #     ubuntu: [libudev-dev]
+    
+    #   libusb-1.0-dev:
+    #     ubuntu: [libusb-1.0-0-dev]
+    
+    #   libdw-dev:
+    #     ubuntu: [libdw-dev]
+    
+    #   catkin:
+    #     ubuntu: [ros-$ROS_DISTRO-catkin]
+    #   EOF 
+
+
+    # # 添加自定义规则源
+    # - echo "yaml file:///etc/ros/rosdep/custom-rules/all_deps.yaml" > /etc/ros/rosdep/sources.list.d/99-custom.list
+
+    # - rosdep update
+    # - echo "test---- to rosdep install --from-paths src --ignore-src -r -y"
+    # - rosdep install --from-paths src --ignore-src -r -y
+
+    - MAJOR=`cat version_ros_nebula.h | grep MAJOR | cut -d " " -f 3`
+    - MINOR=`cat version_ros_nebula.h | grep MINOR | cut -d " " -f 3`
+    - REVISION=`cat version_ros_nebula.h | grep REVISION | cut -d " " -f 3`
+    - version=$MAJOR.$MINOR.$REVISION
+    - build_deb $version nebula usage_nebula.md ReleaseNotes_Nebula.txt noetic aarch64
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: always
+  timeout: 4 hours    
+  artifacts:
+    name:  "$CI_COMMIT_REF_NAME"
+    expire_in: 1 week
+    paths:
+      - nebula-ros-driver-v3-noetic-*.tar.gz
+      - deptrum-stream-v3-ros1-*source.tar.gz
+  tags:
+    - linux-x86_64
+
+.release-ubuntu-16.04-aarch64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu16.04-x86_64:v1
+  stage: release
+  needs: ["build-ubuntu-16.04-aarch64-ros-nebula"]
+  script:
+    - curl --upload-file nebula-ros-driver-v3-kinetic-*.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/kinetic-aarch64/nebula/
+    - curl --upload-file deptrum-stream-v3-ros1-*source.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/kinetic-aarch64/nebula/source/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: manual
+  tags:
+    - linux-x86_64
+
+release-ubuntu-16.04-x86_64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu16.04-x86_64-ros-update-kinetic:v1
+  stage: release
+  needs: ["build-ubuntu-16.04-x86_64-ros-nebula"]
+  script:
+    - curl --upload-file nebula-ros-driver-v3-kinetic-*.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/kinetic-x86_64/nebula/
+    - curl --upload-file deptrum-stream-v3-ros1-*source.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/kinetic-x86_64/nebula/source/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: manual
+  tags:
+    - linux-x86_64
+      
+release-ubuntu-18.04-x86_64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu18.04-x86_64-ros-update-melodic:v1
+  stage: release
+  needs: ["build-ubuntu-18.04-x86_64-ros-nebula"]
+  script:
+    - curl --upload-file nebula-ros-driver-v3-melodic-*.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/melodic-x86_64/nebula/
+    - curl --upload-file deptrum-stream-v3-ros1-*source.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/melodic-x86_64/nebula/source/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: manual
+  tags:
+    - linux-x86_64
+      
+release-ubuntu-18.04-aarch64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu18.04-aarch64-ros-update-melodic:v1
+  stage: release
+  needs: ["build-ubuntu-18.04-aarch64-ros-nebula"]
+  script:
+    - curl --upload-file nebula-ros-driver-v3-melodic-*.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/melodic-aarch64/nebula/
+    - curl --upload-file deptrum-stream-v3-ros1-*source.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/melodic-aarch64/nebula/source/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: manual
+  tags:
+    - linux-x86_64
+    
+release-ubuntu-20.04-x86_64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu20.04-x86_64-ros-update-noetic:v1
+  stage: release
+  needs: ["build-ubuntu-20.04-x86_64-ros-nebula"]
+  script:
+    - curl --upload-file nebula-ros-driver-v3-noetic-*.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/noetic-x86_64/nebula/
+    - curl --upload-file deptrum-stream-v3-ros1-*source.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/noetic-x86_64/nebula/source/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: manual
+  tags:
+    - linux-x86_64
+
+release-ubuntu-20.04-aarch64-ros-nebula:
+  image: 192.168.104.3:32768/ubuntu20.04-aarch64-ros-update-noetic:v1
+  stage: release
+  needs: ["build-ubuntu-20.04-aarch64-ros-nebula"]
+  script:
+    - curl --upload-file nebula-ros-driver-v3-noetic-*.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/noetic-aarch64/nebula/
+    - curl --upload-file deptrum-stream-v3-ros1-*source.tar.gz -u $NAS_LOGIN smb://$nas_ip/$release_path/deptrum-ros-driver/release/noetic-aarch64/nebula/source/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - version_ros_nebula.h
+      when: manual
+  tags:
+    - linux-x86_64
+
+      
+# test-ubuntu-18.04-x86_64-ros-nebula:
+#   image: 192.168.104.3:32768/ubuntu_ros18.04:v1
+#   stage: unittest
+#   needs: ["build-ubuntu-18.04-x86_64-ros-nebula"]
+#   script:
+#     - tar -zxvf nebula-ros-driver-v3-*.tar.gz
+#     - rm -rf nebula-ros-driver-v3-*.tar.gz
+#     - cd nebula-ros-driver-v3*
+#     - dpkg -i ros*.deb
+#     - source /opt/ros/melodic/setup.bash
+#     - rosls deptrum-stream-v3-ros1-nebula
+#     - chmod 777 /tmp && apt update && apt install -y tmux
+#     - tmux new-session -d -s my_session 'roslaunch deptrum-stream-v3-ros1-nebula driver_nebula.launch slam_mode:=0'
+#     - sleep 10
+#     - cat /tmp/deptrum_ros_driver*
+#     - rostopic list
+#     - rm -rf /tmp/image/
+#     - tmux new-session -d -s my_read 'roslaunch deptrum-stream-v3-ros1-nebula read_rosbag_ci_nebula.launch'
+#     - sleep 10
+#     - tmux send-keys -t my_read:0.0 C-c
+#     - sleep 2
+#     - tmux send-keys -t my_session:0.0 C-c
+#     - sleep 2
+#     - cp -r /tmp/image ${CI_PROJECT_DIR}
+    
+#   artifacts:
+#     name:  "$CI_COMMIT_REF_NAME"
+#     expire_in: 1 week
+#     paths:
+#       - image
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#       changes:
+#       - version_ros_nebula.h
+#       when: manual
+#   tags:
+#     - linux-x86_64-unittest
+      
+# test-ubuntu-18.04-aarch64-ros-nebula:
+#   image: 192.168.104.3:32768/ubuntu18.04-aarch64-ros:v1 
+#   stage: unittest
+#   needs: ["build-ubuntu-18.04-aarch64-ros-nebula"]
+#   script:
+#     - tar -zxvf nebula-ros-driver-v3-*.tar.gz
+#     - rm -rf nebula-ros-driver-v3-*.tar.gz
+#     - cd nebula-ros-driver-v3*
+#     - dpkg -i ros*.deb
+#     - source /opt/ros/melodic/setup.bash
+#     - rosls deptrum-stream-v3-ros1-nebula
+#   #   - apt update && apt install -y tmux
+#   #   - tmux new-session -d -s my_session 'roslaunch deptrum-stream-v3-ros1-nebula driver_nebula.launch'
+#   #   - sleep 5
+#   #   - rostopic list
+#   #   - rm -rf /tmp/image/
+#   #   - tmux new-session -d -s my_read 'roslaunch deptrum-stream-v3-ros1-nebula read_rosbag_ci_nebula.launch'
+#   #   - sleep 5
+#   #   - tmux send-keys -t my_read:0.0 C-c
+#   #   - sleep 2
+#   #   - tmux send-keys -t my_session:0.0 C-c
+#   #   - sleep 2
+#   #   - cat /tmp/deptrum_ros_driver*
+#   #   - cp -r /tmp/image ${CI_PROJECT_DIR}
+    
+#   # artifacts:
+#   #   name:  "$CI_COMMIT_REF_NAME"
+#   #   expire_in: 1 week
+#   #   paths:
+#   #     - image
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#       changes:
+#       - version_ros_nebula.h
+#       when: manual
+#   tags:
+#     - linux-x86_64-unittest
+    
+# test-ubuntu-20.04-x86_64-ros-nebula:
+#   image: 192.168.104.3:32768/ubuntu_ros20.04:v2
+#   stage: unittest
+#   needs: ["build-ubuntu-20.04-x86_64-ros-nebula"]
+#   script:
+#     - tar -zxvf nebula-ros-driver-v3-*.tar.gz
+#     - rm -rf nebula-ros-driver-v3-*.tar.gz
+#     - cd nebula-ros-driver-v3*
+#     - dpkg-deb -x ros*.deb .
+#     - cp -r ./opt/ros/noetic/lib/* /opt/ros/noetic/lib/
+#     - cp -r ./opt/ros/noetic/share/deptrum-stream-v3-ros1-nebula /opt/ros/noetic/share/
+#     - source /opt/ros/noetic/setup.bash
+#     - rosls deptrum-stream-v3-ros1-nebula
+#     - apt update && apt install -y tmux
+#     - tmux new-session -d -s my_session 'roslaunch deptrum-stream-v3-ros1-nebula driver_nebula.launch slam_mode:=0'
+#     - sleep 10
+#     - cat /tmp/deptrum_ros_driver*
+#     - rostopic list
+#     - rm -rf /tmp/image/
+#     - tmux new-session -d -s my_read 'roslaunch deptrum-stream-v3-ros1-nebula read_rosbag_ci_nebula.launch'
+#     - sleep 10
+#     - tmux send-keys -t my_read:0.0 C-c
+#     - sleep 2
+#     - tmux send-keys -t my_session:0.0 C-c
+#     - sleep 2
+#     - cp -r /tmp/image ${CI_PROJECT_DIR}
+    
+#   artifacts:
+#     name:  "$CI_COMMIT_REF_NAME"
+#     expire_in: 1 week
+#     paths:
+#       - image
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#       changes:
+#       - version_ros_nebula.h
+#       when: manual
+#   tags:
+#     - linux-x86_64-unittest
+
+# test-ubuntu-20.04-aarch64-ros-nebula:
+#   image: 192.168.104.3:32768/ubuntu20.04-aarch64-ros:v1
+#   stage: unittest
+#   needs: ["build-ubuntu-20.04-aarch64-ros-nebula"]
+#   script:
+#     - tar -zxvf nebula-ros-driver-v3-*.tar.gz
+#     - rm -rf nebula-ros-driver-v3-*.tar.gz
+#     - cd nebula-ros-driver-v3*
+#     - dpkg-deb -x ros*.deb .
+#     - cp -r ./opt/ros/noetic/lib/* /opt/ros/noetic/lib/
+#     - cp -r ./opt/ros/noetic/share/deptrum-stream-v3-ros1-nebula /opt/ros/noetic/share/
+#     - source /opt/ros/noetic/setup.bash
+#     - rosls deptrum-stream-v3-ros1-nebula
+#   #   - apt update && apt install -y tmux
+#   #   - tmux new-session -d -s my_session 'roslaunch deptrum-stream-v3-ros1-nebula driver_nebula.launch'
+#   #   - sleep 5
+#   #   - cat /tmp/deptrum_ros_driver*
+#   #   - rostopic list
+#   #   - rm -rf /tmp/image/
+#   #   - tmux new-session -d -s my_read 'roslaunch deptrum-stream-v3-ros1-nebula read_rosbag_ci_nebula.launch'
+#   #   - sleep 5
+#   #   - tmux send-keys -t my_read:0.0 C-c
+#   #   - sleep 2
+#   #   - tmux send-keys -t my_session:0.0 C-c
+#   #   - sleep 2
+#   #   - cp -r /tmp/image ${CI_PROJECT_DIR}
+    
+#   # artifacts:
+#   #   name:  "$CI_COMMIT_REF_NAME"
+#   #   expire_in: 1 week
+#   #   paths:
+#   #     - image
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#       changes:
+#       - version_ros_nebula.h
+#       when: manual
+#   tags:
+#     - linux-x86_64-unittest

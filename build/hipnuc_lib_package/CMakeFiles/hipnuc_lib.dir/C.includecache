@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dut/lidar6/src/hipnuc_lib_package/include/hipnuc_lib_package/hipnuc_dec.h
+stdint.h
+-
+stdio.h
+-
+string.h
+-
+
+/home/dut/lidar6/src/hipnuc_lib_package/include/hipnuc_lib_package/nmea_decode.h
+stdio.h
+-
+stdlib.h
+-
+stdint.h
+/home/dut/lidar6/src/hipnuc_lib_package/include/hipnuc_lib_package/stdint.h
+string.h
+-
+math.h
+-
+
+/home/dut/lidar6/src/hipnuc_lib_package/src/hipnuc_dec.c
+hipnuc_lib_package/hipnuc_dec.h
+/home/dut/lidar6/src/hipnuc_lib_package/src/hipnuc_lib_package/hipnuc_dec.h
+
+/home/dut/lidar6/src/hipnuc_lib_package/src/nmea_decode.c
+hipnuc_lib_package/nmea_decode.h
+/home/dut/lidar6/src/hipnuc_lib_package/src/hipnuc_lib_package/nmea_decode.h
+

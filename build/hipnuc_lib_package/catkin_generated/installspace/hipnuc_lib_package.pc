@@ -1,0 +1,8 @@
+prefix=/home/dut/lidar6/install
+
+Name: hipnuc_lib_package
+Description: Description of hipnuc_lib_package
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lhipnuc_lib
+Requires: roscpp std_msgs

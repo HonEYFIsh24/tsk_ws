@@ -1,0 +1,115 @@
+stages:
+    - build
+    - release  
+include:
+  - local: .gitlab-build-release-nebula.yml
+
+.auto_devops: &auto_devops |
+  function build_deb(){
+    local version=$1
+    local product_name=$2
+    local usage_filename=$3
+    local release_filename=$4
+    local ros_platform_verison=$5
+    local platform=$6
+    
+    #ros_platform_verison example noetic
+    #product_name example nebula
+    #sdk_type  example  NEBULA
+    local sdk_type=$(echo "$product_name" | tr '[:lower:]' '[:upper:]')
+
+    #build_directory /tmp/binarydeb/ros-noetic-nebula-0.0.1
+    build_directory=/tmp/binarydeb/ros-$ros_platform_verison-$product_name-$version
+    
+
+    echo "test---- build_directory= ${build_directory}"
+
+    #pack_source_directory /tmp/pack_source/deptrum-stream-v3-ros1-nebula-0.0.1
+    pack_source_directory=/tmp/pack_source/deptrum-stream-v3-ros1-$product_name-$version
+    echo "test---- pack_source_directory= ${pack_source_directory}"
+
+    echo "test---- dir list last dir..."
+    ls -l ../
+
+    echo "test---- dir list over"
+
+    mkdir -p $build_directory $pack_source_directory
+
+    echo "test---- cp -r deptrum-stream-v3-ros1 to build_directory and  pack_source_directory"
+    cp -r ../deptrum-stream-v3-ros1/. $build_directory
+    cp -r ../deptrum-stream-v3-ros1/. $pack_source_directory
+    rm -rf $pack_source_directory/*.tar.gz $pack_source_directory/*-ros-driver-v3-*
+
+    #删除git gitnore gitlab-ci
+    echo "delete git gitnore...."
+    rm -rf $pack_source_directory/.git $pack_source_directory/.gitignore $pack_source_directory/.gitlab-build-release-nebula.yml $pack_source_directory/.gitlab-ci.yml
+
+
+    cd $build_directory
+    sed -i "s/0.0.0/$version/" package.xml
+    sed -i "s/deptrum-stream-v3-ros1/deptrum-stream-v3-ros1-$product_name/g" package.xml debian/postinst
+
+    echo "test---- to bloom-generate"
+    echo y | bloom-generate rosdebian --os-name ubuntu --ros-distro $ros_platform_verison
+    sed -i 's/dh_auto_configure --/dh_auto_configure -- -DSTREAM_SDK_TYPE='"$sdk_type"'/' debian/rules
+    if [ "$platform" = "aarch64" ]; then
+      debian/rules binary
+      product_tar_directory=$product_name-ros-driver-v3-$ros_platform_verison-aarch64-$version
+      tar_directory=$CI_PROJECT_DIR/$product_tar_directory
+      mkdir -p $tar_directory
+      cp -r ../ros-$ros_platform_verison-deptrum-camera_*_arm64.deb $tar_directory
+      rm ../ros-$ros_platform_verison-deptrum-camera_*_arm64.deb
+      cp -r ./docs $tar_directory
+      cp -r ./README_CN.md $tar_directory
+      cp -r ./$release_filename $tar_directory
+      #pack source
+      cp -r ext $pack_source_directory
+      cd $CI_PROJECT_DIR
+      tar -zcvf $product_name-ros-driver-v3-$ros_platform_verison-aarch64-$version.tar.gz ./$product_tar_directory
+      tar -zcvf deptrum-stream-v3-ros1-$product_name-aarch64-$version-source.tar.gz -C /tmp/pack_source deptrum-stream-v3-ros1-$product_name-$version
+    else
+      if [ "$ros_platform_verison" = "noetic" ]; then
+        sed -i 's/dh_shlibdeps/dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info dh_shlibdeps/' debian/rules
+      fi
+      fakeroot debian/rules binary
+
+      #product_tar_directory nebula-ros-driver-v3-noetic-x86_64-0.0.1
+      product_tar_directory=$product_name-ros-driver-v3-$ros_platform_verison-x86_64-$version
+
+      echo "test---- dir cur list after bloom-generate"
+      ls -l
+      echo "test---- dir cur list after bloom-generate over"
+
+      echo "test---- product_tar_directory : ${product_tar_directory}"
+
+
+      tar_directory=$CI_PROJECT_DIR/$product_tar_directory
+
+      echo "test---- tar_directory : ${tar_directory}"
+
+      mkdir -p $tar_directory
+
+      echo "test---- observe the deb name"
+      ls -l ../
+      echo "test---- observe the deb name over"
+
+      cp -r ../ros-$ros_platform_verison-deptrum-camera_*_amd64.deb $tar_directory
+
+      echo "test---- after cp -r deb"
+
+      rm ../ros-$ros_platform_verison-deptrum-camera_*_amd64.deb
+      cp -r ./docs $tar_directory
+      cp -r ./README_CN.md $tar_directory
+      # cp -r ./README.MD $tar_directory
+      
+      cp -r ./$release_filename $tar_directory
+      #pack source
+      cp -r ext $pack_source_directory
+      cd $CI_PROJECT_DIR
+      tar -zcvf $product_name-ros-driver-v3-$ros_platform_verison-x86_64-$version.tar.gz ./$product_tar_directory
+      tar -zcvf deptrum-stream-v3-ros1-$product_name-x86_64-$version-source.tar.gz -C /tmp/pack_source deptrum-stream-v3-ros1-$product_name-$version
+    fi
+  }
+
+before_script:
+  - *auto_devops

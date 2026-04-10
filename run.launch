@@ -1,0 +1,17 @@
+<launch>
+
+  <!-- 图像检测 -->
+  <!--include file="$(find detector_2d)/launch/demo.launch"/-->
+
+  <!-- lidar decode -->
+  <include file="$(find points_trans)/launch/decode.launch"/>
+
+
+  <!-- fast-livo -->
+  <include file = "$(find fast_livo)/launch/mapping_avia1.launch"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d /home/dut/lidar6/run.rviz" output="screen"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="fast_livo_tolidar_broadcaster"
+        args="0 0 0 0.258819 0 0 0.9659258 camera_link camera_init"/>
+
+</launch>

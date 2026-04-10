@@ -1,0 +1,12 @@
+cam_model: Pinhole
+cam_width: 640
+cam_height: 480
+scale: 1.0
+cam_fx: 650.6268   # 直接使用IntrinsicMatrix[1,1]
+cam_fy: 650.0657   # 直接使用IntrinsicMatrix[2,2]
+cam_cx: 315.1954   # 直接使用IntrinsicMatrix[1,3]
+cam_cy: 210.2138   # 直接使用IntrinsicMatrix[2,3]
+cam_d0: 0.0158   # k1
+cam_d1: 0.5061   # k2
+cam_d2: 0        # p1
+cam_d3: 0        # p2
